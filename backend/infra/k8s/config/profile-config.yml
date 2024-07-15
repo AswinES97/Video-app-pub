@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: profile-config
+  namespace: app
+data:
+  PORT: "3002"
+  NODE_ENV: "development"
+  # MONGO_URL: "mongodb://localhost:27017/profile"
+  KAFKA_BROKER: "my-kafka.kafka.svc.cluster.local:9092"

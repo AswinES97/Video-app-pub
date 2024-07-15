@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apigateway-config
+  namespace: app
+data:
+  PORT: "3000"
+  NODE_ENV: "development"
+  AUTH_SRV: "auth-srv:3001"
+  PROFILE_SRV: "profile-srv:3002"
+  VIDEO_SRV: "video-srv:3003"
+  JWT_SECRET: "sz4kUoKTEpemjr6E29kMzCmC3BzAQ6Yfi2UyWjHKSGhAPdGgH2WfcoTZUBWD3uF"
+  MAIL_URL: "http://localhost:4200/email-verification"

@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: upload
+  name: service_name
+  labels:
+    app: service_name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service_name
+  template:
+    metadata:
+      labels:
+        app: service_name
+    spec:
+      containers:
+        - name: uploader
+          image: aswines/ticketing-uploader
+          ports:
+            - containerPort: 3004
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-s3
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-s3
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-s3
+                  key: AWS_BUCKET
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: aws-s3
+                  key: AWS_REGION
+          envFrom:
+            - configMapRef:
+                name: uploader-config
+
+          # resources:
+          # Bounty $25 Use ephemeral-storage to add space limits here
+          # requests:
+          #   cpu: "1"
+          #   memory: "1Gi"
+          # limits:
+          #   cpu: "1"
+          #   memory: "1Gi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: upload
+  name: service_name
+spec:
+  selector:
+    app: service_name
+  ports:
+    - protocol: TCP
+      port: 3004
+      targetPort: 3004
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: upload
+  name: service_name
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m" # Limit body size to 10MB
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k" # Buffer size for large files
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: service_name.ticketing.localdev.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service_name
+                port:
+                  number: 3004

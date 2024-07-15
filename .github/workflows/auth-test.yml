@@ -1,0 +1,31 @@
+name: auth-test
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'backend/auth/src/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+          
+      - name: Install dependencies
+        run: |
+          cd backend/auth 
+          npm install
+
+      - name: Set Environment Variables
+        run: |
+          echo PORT=${{ secrets.PORT }} > backend/auth/.env
+          echo MONGO_URL=${{ secrets.MONGO_URL }} >> backend/auth/.env
+          echo NODE_ENV=${{ secrets.NODE_ENV }} >> backend/auth/.env
+
+      - name: Running tests
+        run: |
+          cd backend/auth 
+          npm run test:ci

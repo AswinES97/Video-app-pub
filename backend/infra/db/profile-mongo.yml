@@ -1,0 +1,34 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: profile-mongo-depl
+# spec:
+#   selector:
+#     matchLabels:
+#       app: profile-mongo
+#   template:
+#     metadata:
+#       labels:
+#         app: profile-mongo
+#     spec:
+#       containers:
+#       - name: profile-mongo
+#         image: mongo
+#         resources:
+#           limits:
+#             memory: "128Mi"
+#             cpu: "500m"
+
+# ---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: profile-mongo-srv
+# spec:
+#   selector:
+#     app: profile-mongo
+#   ports:
+#   - port: 27017
+#     targetPort: 27017
+

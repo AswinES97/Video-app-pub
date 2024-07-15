@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-depl
+  namespace: app
+spec:
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: aswines/ticketing-auth
+          ports:
+            - containerPort: 3001
+          envFrom:
+            - configMapRef:
+                name: auth-config
+          volumeMounts:
+            - name: key-pair
+              mountPath: /etc/key-pair
+              readOnly: true
+          env:
+            - name: JWT_PRIVATE_KEY
+              value: "/etc/key-pair/ticketing.pem"
+            - name: JWT_PUBLIC_KEY
+              value: "/etc/key-pair/ticketing_pub.pem"
+            - name: NODE_MAILER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: node-mailer
+                  key: NODE_MAILER_PASS
+            - name: MONGO_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-atlas-auth
+                  key: MONGO_URL
+          # resources:
+          #   requests:
+          #     memory: "1Gi"
+          #     cpu: "500m"
+          #   limits:
+          #     memory: "2Gi"
+          #     cpu: "1"
+      volumes:
+        - name: key-pair
+          secret:
+            secretName: key-pair
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-srv
+  namespace: app
+spec:
+  selector:
+    app: auth
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001

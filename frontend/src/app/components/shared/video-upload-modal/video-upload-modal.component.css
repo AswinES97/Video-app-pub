@@ -1,0 +1,17 @@
+.modal.show {
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .drag-drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .drag-drop-area.dragover {
+    border-color: #000;
+  }
+  

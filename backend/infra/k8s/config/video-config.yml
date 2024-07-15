@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: video-config
+  namespace: app
+data:
+  PORT: "3003"
+  NODE_ENV: "development"

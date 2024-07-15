@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uploader-config
+  namespace: upload
+data:
+  PORT: "3004"
+  NODE_ENV: "development"

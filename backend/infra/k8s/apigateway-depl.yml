@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway-depl
+  namespace: app
+spec:
+  selector:
+    matchLabels:
+      app: apigateway
+  template:
+    metadata:
+      labels:
+        app: apigateway
+    spec:
+      containers:
+        - name: apigateway
+          image: aswines/ticketing-apigateway
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: apigateway-config
+          volumeMounts:
+            - name: key-pair
+              mountPath: /etc/key-pair
+              readOnly: true
+          env:
+            - name: JWT_PUBLIC_KEY
+              value: "/etc/key-pair/ticketing_pub.pem"
+          # resources:
+          #   requests:
+          #     memory: "1Gi"
+          #     cpu: "500m"
+          #   limits:
+          #     memory: "2Gi"
+          #     cpu: "1"
+      volumes:
+        - name: key-pair
+          secret:
+            secretName: key-pair
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway-srv
+  namespace: app
+spec:
+  selector:
+    app: apigateway
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
