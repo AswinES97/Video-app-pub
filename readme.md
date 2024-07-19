@@ -64,7 +64,7 @@
 
   - Clone the repository:
     ```bash
-    git clone [https://github.com/AswinES97/Video-app.git](https://github.com/AswinES97/Video-app-pub.git)
+    git clone https://github.com/AswinES97/Video-app-pub.git
     ```
     <br>
 
