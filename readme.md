@@ -1,7 +1,7 @@
 # Video Upload, Transcode, and Live Stream Application
   Welcome to the repository for our video upload, transcode, and live stream  application. This project is currently under development, and I am excited to share my progress with you. Below, you will find all the necessary details about the project, its structure, technologies used, and how to get started.
 
-#### Table of Contents
+#### Table of Content
   1. [Overview](#overview)
   2. [Technologies Used](#technologies-used)
   3. [Project Structure](#project-structure)
