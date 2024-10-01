@@ -1,8 +1,9 @@
 # Video Upload, Transcode, and Live Stream Application
   Welcome to the repository for our video upload, transcode, and live stream  application. This project is currently under development, and I am excited to share my progress with you. Below, you will find all the necessary details about the project, its structure, technologies used, and how to get started.
 
-#### Table of Content
+#### Table of Contents
   1. [Overview](#overview)
+  2. [Diagram](#diagram)
   2. [Technologies Used](#technologies-used)
   3. [Project Structure](#project-structure)
   4. [Getting Started](#getting-started)
@@ -12,6 +13,10 @@
 ### Overview
   This application allows users to upload videos, which are then transcoded and made available for live streaming. The backend is built with Node.js and Express, while the frontend is developed using Angular. We use a combination of MongoDB and PostgreSQL for data storage, and Kafka for messaging between microservices.
   <br>
+
+### Diagram
+
+![Website](video-transcoder.webp)
 
 ### Technologies Used
   - Frontend: Angular 16, NGRX <br>
